@@ -61,13 +61,15 @@ iClient::iClient(const unsigned int& /* _uplink */, const string& _yyxxx, const 
                  const string& _userName, const string& _hostBase64, const string& _insecureHost,
                  const string& _realInsecureHost, const string& _mode, const string& _account,
                  const unsigned int _account_id, const flagType _account_flags,
-                 const string& _tls_fingerprint, const string& _setHost, const string& _fakeHost,
+                 const string& _tls_fingerprint, const string& _cloakHost, const string& _cloakIP, 
+		 const string& _setHost, const string& _fakeHost,
                  const string& _description, const time_t& _nick_ts)
     : NetworkTarget(_yyxxx), nickName(_nickName), userName(_userName),
       IP(xIP(_hostBase64, true).GetLongIP()), insecureHost(_insecureHost),
       realInsecureHost(_realInsecureHost), description(_description), nick_ts(_nick_ts),
       first_nick_ts(_nick_ts), mode(0), account(_account), account_id(_account_id),
-      account_flags(_account_flags), tlsFingerprint(_tls_fingerprint)
+      account_flags(_account_flags), tlsFingerprint(_tls_fingerprint),
+      cloakHost(_cloakHost), cloakIP(_cloakIP)
 #ifdef ASUKA
       ,
       setHost(_setHost)
@@ -135,6 +137,12 @@ void iClient::setModes(const string& newModes) {
             if (isModeR() && isModeX())
                 setHiddenHost();
             break;
+        case 'C':
+            setModeC();
+            break;
+        case 'c':
+            setModec();
+            break;
         case '+':
             break;
         case 'n':
@@ -187,6 +195,10 @@ const string iClient::getStringModes() const {
         retMe += 'g';
     if (isModeZ())
         retMe += 'z';
+    if (isModeC())
+        retMe += 'C';
+    if (isModec())
+        retMe += 'c';
 
     return retMe;
 }
