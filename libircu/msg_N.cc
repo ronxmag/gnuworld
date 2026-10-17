@@ -151,6 +151,8 @@ bool msg_N::Execute(const xParameters& params) {
     string sethost;
     string fakehost;
     string tlsFingerprint;
+    string cloakhost;
+    string cloakip;
 
     xParameters::size_type currentArgIndex = 6;
 
@@ -176,11 +178,17 @@ bool msg_N::Execute(const xParameters& params) {
             case 'f':
                 fakehost = params[currentArgIndex++];
                 break;
-#ifdef NEW_IRCU_FEATURES
+#ifndef NO_FINGERPRINT_BURST
             case 'z':
                 tlsFingerprint = params[currentArgIndex++];
                 break;
 #endif
+            case 'C':
+                cloakhost = params[currentArgIndex++];
+                break;
+            case 'c':
+                cloakip = params[currentArgIndex++];
+                break;
             default:
                 break;
             } // switch( *modePtr )
@@ -237,6 +245,8 @@ bool msg_N::Execute(const xParameters& params) {
                                                     account_id,     // account id
                                                     account_flags,  // account flags
                                                     tlsFingerprint, // TLS fingerprint
+                                                    cloakhost,      // nefa cloakhost
+                                                    cloakip,        // nefa cloakIP
                                                     sethost,        // asuka sethost
                                                     fakehost,       // srvx fakehost
                                                     description,    // real name / infoline
