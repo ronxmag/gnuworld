@@ -96,6 +96,12 @@ class iClient : public NetworkTarget {
     /** MODE_TLS is true if this user is using TLS. */
     static constexpr modeType MODE_TLS = 0x0400;
 
+    /// MODE_CLOAK_HOST is true if the iClient has CLOAK_HOST (+C) set.
+    static constexpr modeType MODE_CLOAK_HOST = 0x0800;
+
+    /// MODE_CLOAK_IP is true if the iClient has CLOAK_IP (+c) set.
+    static constexpr modeType MODE_CLOAK_IP = 0x1000;
+
     /**
      * Define a type to be used for storing the
      * iClient's account's flags.
@@ -140,6 +146,7 @@ class iClient : public NetworkTarget {
             const std::string& _insecureHost, const std::string& _realInsecureHost,
             const std::string& _mode, const std::string& _account, const unsigned int _account_id,
             const flagType _account_flags, const std::string& _tls_fingerprint,
+	    const std::string& _cloakHost, const std::string& _cloakIP,	
             const std::string& _setHost, const std::string& _fakeHost,
             const std::string& _description, const time_t& _nick_ts);
 
@@ -310,6 +317,16 @@ class iClient : public NetworkTarget {
         tlsFingerprint = _tls_fingerprint;
     }
 
+    /**
+     * Retrieve the iClient's 'cloaked' host name.
+     */
+    inline const std::string& getCloakHost() const { return cloakHost; }
+
+    /**
+     * Retrieve the iClient's 'cloaked' ip.
+     */
+    inline const std::string& getCloakIP() const { return cloakIP; }
+
 #ifdef ASUKA
     /**
      * Retrieve the iClient's sethost.
@@ -471,6 +488,16 @@ class iClient : public NetworkTarget {
     inline bool isModeX() const { return getMode(MODE_HIDDEN_HOST); }
 
     /**
+     * +C cloak host, is a hidden host.
+     */
+    inline bool isModeC() const { return getMode(MODE_CLOAK_HOST); }
+
+    /**
+     *  +c cloak ip, is a hidden host.
+     */
+    inline bool isModec() const { return getMode(MODE_CLOAK_IP); }
+
+    /**
      * Return true if this client has the +g mode set, false otherwise.
      */
     inline bool isModeG() const { return getMode(MODE_G); }
@@ -554,6 +581,16 @@ class iClient : public NetworkTarget {
      * Designate this iClient as a fake.
      */
     inline void setFake() { setMode(MODE_FAKE); }
+
+    /**
+     * Set mode +C for this user.
+     */
+    inline void setModeC() { setMode(MODE_CLOAK_HOST); }
+
+    /**
+     * Set mode +c for this user.
+     */
+    inline void setModec() { setMode(MODE_CLOAK_IP); }
 
     /**
      * Remove a user mode for this iClient.
@@ -730,6 +767,16 @@ class iClient : public NetworkTarget {
 
     /** The TLS fingerprint of this client. */
     std::string tlsFingerprint;
+
+    /**
+     * Nefarious2 Cloaked Host.
+     */
+    std::string cloakHost;
+
+    /**
+     * Nefarious2 Cloaked IP.
+     */
+    std::string cloakIP;
 
 #ifdef ASUKA
     /**
