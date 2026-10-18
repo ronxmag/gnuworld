@@ -23,7 +23,7 @@ VALUES ('#coder-com',1,date_part('epoch', CURRENT_TIMESTAMP)::int,31337,date_par
 
 -- Change 'Admin' to your username if you prefer
 INSERT into users (user_name,password,language_id,last_updated) 
-VALUES ('Admin','xEDi1V791f7bddc526de7e3b0602d0b2993ce21d',1,date_part('epoch', CURRENT_TIMESTAMP)::int);
+VALUES ('DecrypteD','8CAavzzZ4bff83fce89d28488f14ed73a32e456b',1,date_part('epoch', CURRENT_TIMESTAMP)::int);
 
 --INSERT into users_lastseen (user_id,last_seen,last_updated) 
 --VALUES (1,date_part('epoch', CURRENT_TIMESTAMP)::int,date_part('epoch', CURRENT_TIMESTAMP)::int);
